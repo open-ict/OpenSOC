@@ -1,60 +1,104 @@
-# 🛡️ OpenSOC
-**Open Security Monitoring Stack for Small Organisations**
+# OpenSOC
+**Reproducible Open Security Infrastructure for Small Organisations**
 
-OpenSOC is an open-source, self-hosted security monitoring platform that enables small organisations to deploy a practical and reproducible security infrastructure using open technologies.
+OpenSOC is an open-source, self-hosted “SOC-in-a-box” designed for small organisations, educational environments, and community labs.
 
----
-
-## 🚀 Overview
-
-OpenSOC provides a complete, deployable security monitoring environment by integrating existing open-source tools into a unified system.
-
-It focuses on:
-- Simplicity
-- Reproducibility
-- Self-hosting
-- Modular architecture
+It provides a reproducible security monitoring environment built on open technologies and deployable on a single virtualization host.
 
 ---
 
-## 🧩 Architecture
+## Overview
 
-OpenSOC is built on a virtualized infrastructure using:
+OpenSOC does not create new security tools from scratch.  
+Instead, it integrates proven open-source components into a reusable, documented, and understandable deployment model.
 
-- Proxmox VE (virtualization layer)
-- pfSense (network security)
-- Wazuh (monitoring & detection)
-- ELK Stack (analytics & visualization)
+The project focuses on:
 
----
-
-## 🖥️ System Layers
-
-### 1. Virtualization Layer
-- Proxmox-based infrastructure
-- Virtual Machines for isolation
-- Container support
-
-### 2. Security Layer
-- Firewall (pfSense)
-- IDS/IPS (Suricata optional)
-- Network monitoring
-
-### 3. Monitoring Layer
-- Log collection (Wazuh agents)
-- Endpoint visibility
-- Rule-based detection
-
-### 4. Analytics Layer
-- Event processing
-- Data indexing (Elasticsearch)
-- Visualization (Kibana)
-
-### 5. Application Layer
-- Alert dashboard
-- Event exploration
-- Triage workflow
+- reproducibility
+- self-hosting
+- modular architecture
+- practical security visibility
+- educational and operational use
 
 ---
 
-## 🔄 Data Flow
+## Core Components
+
+OpenSOC is built around a virtualized architecture using:
+
+- **Proxmox VE** as the virtualization layer
+- **pfSense** as firewall and network boundary
+- **Wazuh** for monitoring and detection
+- **ELK Stack** for analytics and visualization
+
+---
+
+## Architecture
+
+### Main layers
+
+1. **Virtualization Layer**
+   - Proxmox host
+   - VM-based deployment
+   - isolated security services
+
+2. **Security Layer**
+   - firewall
+   - network monitoring
+   - optional IDS/IPS extensions
+
+3. **Monitoring Layer**
+   - log collection
+   - endpoint monitoring
+   - rule-based alerts
+
+4. **Analytics Layer**
+   - indexing
+   - event processing
+   - dashboards
+
+5. **Lab / Validation Layer**
+   - test scenarios
+   - demo detections
+   - validation workflows
+
+---
+
+## MVP Scope
+
+The initial MVP includes:
+
+- single Proxmox host deployment
+- pfSense VM
+- Wazuh VM
+- ELK / dashboard VM
+- basic ingestion and normalization
+- rule-based alerting
+- one reproducible demo attack scenario
+- deployment documentation
+
+---
+
+## Use Cases
+
+OpenSOC is intended for:
+
+- small organisations
+- SMEs without enterprise SOC budgets
+- training labs
+- educational environments
+- community infrastructure
+- cooperative and civic organisations
+
+---
+
+## Repository Structure
+
+```text
+opensoc/
+├── deploy/
+├── docs/
+├── scenarios/
+├── configs/
+├── dashboard/
+└── README.md
