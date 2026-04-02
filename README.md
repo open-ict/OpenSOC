@@ -1,104 +1,53 @@
-# OpenSOC
-**Reproducible Open Security Infrastructure for Small Organisations**
+# OpenSOC SaaS v6 – Production Hardening Starter
 
-OpenSOC is an open-source, self-hosted “SOC-in-a-box” designed for small organisations, educational environments, and community labs.
+This package is a production-style hardening upgrade for an OpenSOC multi-tenant SaaS layer around Wazuh.
 
-It provides a reproducible security monitoring environment built on open technologies and deployable on a single virtualization host.
+## What's new in v6
+- Real Alembic-ready initial migration file and migration helper commands
+- OIDC login endpoints scaffolded with Authlib for enterprise SSO
+- Background worker with retry queue and dead-letter queue for notifications
+- Periodic Wazuh sync worker hooks with tenant-aware sync jobs
+- Secret rotation endpoint for tenant integrations
+- Readiness, liveness, and operational metrics endpoints
+- Stronger audit logging around sync, notification, and secret rotation events
+- Optional tenant-scoped policy config model for future enforcement
+- Frontend admin console upgraded for ops visibility
 
----
+## Quick start
+1. Copy `.env.example` to `.env`
+2. Generate secrets:
+   ```bash
+   python - <<'PY'
+   from cryptography.fernet import Fernet
+   print(Fernet.generate_key().decode())
+   PY
+   ```
+3. Put the generated value into `FERNET_KEY`
+4. Set `JWT_SECRET` and your Wazuh / SMTP / OIDC values
+5. Start the stack:
+   ```bash
+   docker compose up --build
+   ```
+6. API: `http://localhost:8000`
+7. Frontend: `http://localhost:5173`
+8. Reverse proxy: `http://localhost:8080`
 
-## Overview
+## Default credentials
+- `admin@example.com`
+- `ChangeMe123!`
 
-OpenSOC does not create new security tools from scratch.  
-Instead, it integrates proven open-source components into a reusable, documented, and understandable deployment model.
+Change them immediately.
 
-The project focuses on:
+## Useful endpoints
+- `GET /health/live`
+- `GET /health/ready`
+- `GET /api/ops/metrics`
+- `GET /api/ops/jobs/dead-letter`
+- `POST /api/ops/rotate-secret/{provider}`
+- `GET /api/auth/oidc/login`
 
-- reproducibility
-- self-hosting
-- modular architecture
-- practical security visibility
-- educational and operational use
-
----
-
-## Core Components
-
-OpenSOC is built around a virtualized architecture using:
-
-- **Proxmox VE** as the virtualization layer
-- **pfSense** as firewall and network boundary
-- **Wazuh** for monitoring and detection
-- **ELK Stack** for analytics and visualization
-
----
-
-## Architecture
-
-### Main layers
-
-1. **Virtualization Layer**
-   - Proxmox host
-   - VM-based deployment
-   - isolated security services
-
-2. **Security Layer**
-   - firewall
-   - network monitoring
-   - optional IDS/IPS extensions
-
-3. **Monitoring Layer**
-   - log collection
-   - endpoint monitoring
-   - rule-based alerts
-
-4. **Analytics Layer**
-   - indexing
-   - event processing
-   - dashboards
-
-5. **Lab / Validation Layer**
-   - test scenarios
-   - demo detections
-   - validation workflows
-
----
-
-## MVP Scope
-
-The initial MVP includes:
-
-- single Proxmox host deployment
-- pfSense VM
-- Wazuh VM
-- ELK / dashboard VM
-- basic ingestion and normalization
-- rule-based alerting
-- one reproducible demo attack scenario
-- deployment documentation
-
----
-
-## Use Cases
-
-OpenSOC is intended for:
-
-- small organisations
-- SMEs without enterprise SOC budgets
-- training labs
-- educational environments
-- community infrastructure
-- cooperative and civic organisations
-
----
-
-## Repository Structure
-
-```text
-opensoc/
-├── deploy/
-├── docs/
-├── scenarios/
-├── configs/
-├── dashboard/
-└── README.md
+## Notes
+- This is a hardened starter, not a finished enterprise product.
+- OIDC needs provider-specific metadata and redirect configuration.
+- For self-signed lab certificates set `WAZUH_VERIFY_SSL=false`, but use trusted certificates in production.
+- The worker uses Redis queues with retry and dead-letter handling.
